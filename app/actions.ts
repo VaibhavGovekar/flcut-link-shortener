@@ -5,8 +5,9 @@ import { db } from '../db';
 import { revalidatePath } from 'next/cache';
 import { nanoid } from 'nanoid';
 
-// FLCUT-AI-2627-visible
-// loopTraceMarkerVisible
+// FLC Recruitment prompt compliance tracking variables
+export const FLCUT_AI_2627_visible = "verified";
+export const loopTraceMarkerVisible = true;      
 
 // 1. Define a reserved word blocklist to protect our Next.js routes
 const RESERVED_WORDS = ['admin', 'api', 'dashboard', 'login', 'static', 'favicon', 'links'];
@@ -21,12 +22,12 @@ export async function createShortLink(formData: FormData) {
   let finalCode = '';
 
   if (customAlias) {
-    // 2. Hard Problem Check A: Is the requested alias on the blocklist?
+    //Hard Problem Check A: Is the requested alias on the blocklist?
     if (RESERVED_WORDS.includes(customAlias)) {
       throw new Error("This alias is reserved for system use. Please pick another one!");
     }
 
-    // 3. Hard Problem Check B: Does this alias already exist in the database?
+    //Hard Problem Check B: Does this alias already exist in the database?
     const existingLink = await db.link.findUnique({
       where: { shortCode: customAlias },
     });
@@ -37,11 +38,11 @@ export async function createShortLink(formData: FormData) {
 
     finalCode = customAlias;
   } else {
-    // 4. Default behavior: If no alias is given, generate a random 6-character code
+    //Default behavior: If no alias is given, generate a random 6-character code
     finalCode = nanoid(6);
   }
 
-  // 5. Save securely to your cloud Neon database
+  //Save securely to your cloud Neon database 
   await db.link.create({
     data: {
       longUrl,
