@@ -37,11 +37,11 @@ export default async function HomePage() {
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
           {savedLinks.map((link) => {
-            // This trick automatically checks if the site is running locally or live on Vercel!
+            // Replace 'flcut-link-shortener' with your actual Vercel project name if it's different!
             const baseUrl = typeof window !== 'undefined' 
               ? window.location.origin 
-              : process.env.NEXT_PUBLIC_VERCEL_URL 
-                ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
+              : process.env.NODE_ENV === 'production'
+                ? 'https://flcut-link-shortener.vercel.app' // Your clean production URL
                 : 'http://localhost:3000';
 
             const fullShortLink = `${baseUrl}/${link.shortCode}`;
