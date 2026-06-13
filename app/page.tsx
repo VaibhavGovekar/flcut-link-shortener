@@ -30,20 +30,41 @@ export default async function HomePage() {
         </button>
       </form>
 
-      {/* Simple Dashboard List */}
+     {/* Simple Dashboard List */}
       <h2>Your Short Links 📊</h2>
       {savedLinks.length === 0 ? (
         <p style={{ color: "#999" }}>No links generated yet. Be the first!</p>
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
-          {savedLinks.map((link) => (
-            <li key={link.id} style={{ padding: "12px", border: "1px solid #eee", borderRadius: "6px", marginBottom: "10px", background: "#fafafa", color: "black" }}>
-              <div><strong>Short Code:</strong> {link.shortCode}</div>
-              <div style={{ fontSize: "12px", color: "#666", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
-                <strong>Original Link:</strong> {link.longUrl}
-              </div>
-            </li>
-          ))}
+          {savedLinks.map((link) => {
+            // This trick automatically checks if the site is running locally or live on Vercel!
+            const baseUrl = typeof window !== 'undefined' 
+              ? window.location.origin 
+              : process.env.NEXT_PUBLIC_VERCEL_URL 
+                ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
+                : 'http://localhost:3000';
+
+            const fullShortLink = `${baseUrl}/${link.shortCode}`;
+
+            return (
+              <li key={link.id} style={{ padding: "16px", border: "1px solid #333", borderRadius: "8px", marginBottom: "12px", background: "#111", color: "white" }}>
+                <div style={{ marginBottom: "8px" }}>
+                  <strong style={{ color: "#0070f3" }}>Shortened Link:</strong>{' '}
+                  <a 
+                    href={`/${link.shortCode}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={{ color: "#0070f3", textDecoration: "underline", wordBreak: "break-all" }}
+                  >
+                    {fullShortLink}
+                  </a>
+                </div>
+                <div style={{ fontSize: "13px", color: "#888", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                  <strong>Original Destination:</strong> {link.longUrl}
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
