@@ -10,9 +10,8 @@ generator client {
 }
 
 model Link {
-  id                     String   @id @default(uuid())
-  longUrl                String
-  shortCode              String   @unique
-  createdAt              DateTime @default(now())
-  loopTraceMarkerVisible String?  @default("active")
+  id        String   @id @default(cuid())
+  longUrl   String
+  shortCode String   @unique // This @unique rule prevents duplicate links at the database level!
+  createdAt DateTime @default(now())
 }

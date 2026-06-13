@@ -17,17 +17,26 @@ export default async function HomePage() {
       <p style={{ color: "#666" }}>Welcome to the Finite Loop Club recruitment build!</p>
       
       {/* Input Form Box */}
-      <form action={createShortLink} style={{ display: "flex", gap: "10px", margin: "30px 0" }}>
+      <form action={createShortLink} style={{ display: "flex", flexDirection: "column", gap: "12px", margin: "30px 0" }}>
         <input 
           type="url" 
           name="longUrl" 
-          placeholder="Paste your long, ugly URL here..." 
+          placeholder="Paste your long, ugly URL here... (e.g., https://forms.gle/...)" 
           required 
-          style={{ flex: 1, padding: "10px", borderRadius: "6px", border: "1px solid #444", backgroundColor: "#222", color: "#fff",fontSize: "16px" }}
+          style={{ padding: "12px", borderRadius: "6px", border: "1px solid #444", backgroundColor: "#222", color: "#fff", fontSize: "16px" }}
         />
-        <button type="submit" style={{ padding: "10px 20px", background: "#0070f3", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}>
-          Shorten!
-        </button>
+        
+        <div style={{ display: "flex", gap: "10px" }}>
+          <input 
+            type="text" 
+            name="customAlias" 
+            placeholder="Custom alias (optional, e.g., hackfest26)" 
+            style={{ flex: 1, padding: "12px", borderRadius: "6px", border: "1px solid #444", backgroundColor: "#222", color: "#fff", fontSize: "16px" }}
+          />
+          <button type="submit" style={{ padding: "12px 24px", background: "#0070f3", color: "white", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold", fontSize: "16px" }}>
+            Shorten!
+          </button>
+        </div>
       </form>
 
      {/* Simple Dashboard List */}
