@@ -3,19 +3,19 @@ import { Metadata } from 'next';
 import { db } from '../db'; 
 import { createShortLink } from './actions';
 
-// This metadata block will now be compiled flawlessly by Next.js
+// 1. Next.js reads this perfectly on the server
 export const metadata: Metadata = {
   title: "FLCut | FLC Link Shortener 🚀",
   description: "Custom, trackable short links for Finite Loop Club events.",
 };
 
 export default async function HomePage() {
-  // Fetch links from your Neon cloud database
+  // 2. Fetch links out of your Neon cloud database
   const savedLinks = await db.link.findMany({
     orderBy: { createdAt: 'desc' }
   });
 
-  // Set your clean production domain globally for the server render
+  // 3. Clean environment-based URL calculation (No 'window' object used!)
   const baseUrl = process.env.NODE_ENV === 'production'
     ? 'https://flcut-link-shortener.vercel.app' 
     : 'http://localhost:3000';
