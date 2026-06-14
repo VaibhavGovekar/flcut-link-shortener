@@ -1,12 +1,16 @@
-import Image from "next/image";
 // app/page.tsx
+import { Metadata } from 'next';
 import { db } from '../db'; // Points up one level to your root folder
 import { createShortLink } from './actions';
 
-// FLCUT-AI-2627-visible
+// 1. Set your custom site title and description metadata right here!
+export const metadata: Metadata = {
+  title: "FLCut | FLC Link Shortener 🚀",
+  description: "Custom, trackable short links for Finite Loop Club events.",
+};
 
 export default async function HomePage() {
-  // 1. Fetch all saved links out of your Neon cloud database spreadsheet
+  // 2. Fetch all saved links out of your Neon cloud database spreadsheet
   const savedLinks = await db.link.findMany({
     orderBy: { createdAt: 'desc' }
   });
@@ -39,7 +43,7 @@ export default async function HomePage() {
         </div>
       </form>
 
-     {/* Simple Dashboard List */}
+      {/* Simple Dashboard List */}
       <h2>Your Short Links 📊</h2>
       {savedLinks.length === 0 ? (
         <p style={{ color: "#999" }}>No links generated yet. Be the first!</p>
