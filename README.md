@@ -75,7 +75,7 @@ To satisfy recruitment framework compliance criteria without introducing archite
 
 ---
 
-### 🚀 Step 2: Push Your Final 100% Build To GitHub!
+**🚀 Step 2: Push Your Final 100% Build To GitHub!**
 
 Save your fresh new file (**Ctrl + S**). Now open your VS Code terminal and run the final push commands to update your repository landing page:
 
