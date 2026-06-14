@@ -1,19 +1,24 @@
 // app/page.tsx
 import { Metadata } from 'next';
-import { db } from '../db'; // Points up one level to your root folder
+import { db } from '../db'; 
 import { createShortLink } from './actions';
 
-// 1. Set your custom site title and description metadata right here!
+// This metadata block will now be compiled flawlessly by Next.js
 export const metadata: Metadata = {
   title: "FLCut | FLC Link Shortener 🚀",
   description: "Custom, trackable short links for Finite Loop Club events.",
 };
 
 export default async function HomePage() {
-  // 2. Fetch all saved links out of your Neon cloud database spreadsheet
+  // Fetch links from your Neon cloud database
   const savedLinks = await db.link.findMany({
     orderBy: { createdAt: 'desc' }
   });
+
+  // Set your clean production domain globally for the server render
+  const baseUrl = process.env.NODE_ENV === 'production'
+    ? 'https://flcut-link-shortener.vercel.app' 
+    : 'http://localhost:3000';
 
   return (
     <div style={{ padding: "40px", fontFamily: "sans-serif", maxWidth: "600px", margin: "0 auto" }}>
@@ -50,13 +55,6 @@ export default async function HomePage() {
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
           {savedLinks.map((link) => {
-            // Replace 'flcut-link-shortener' with your actual Vercel project name if it's different!
-            const baseUrl = typeof window !== 'undefined' 
-              ? window.location.origin 
-              : process.env.NODE_ENV === 'production'
-                ? 'https://flcut-link-shortener.vercel.app' // Your clean production URL
-                : 'http://localhost:3000';
-
             const fullShortLink = `${baseUrl}/${link.shortCode}`;
 
             return (
