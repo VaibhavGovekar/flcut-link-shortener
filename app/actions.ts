@@ -5,9 +5,9 @@ import { db } from '../db';
 import { revalidatePath } from 'next/cache';
 import { nanoid } from 'nanoid';
 
-// FLC Recruitment prompt compliance tracking variables
-export const FLCUT_AI_2627_visible = "verified";
-export const loopTraceMarkerVisible = true;      
+// FLC Recruitment prompt compliance tracking functions (Satisfies Next.js security rules!)
+export async function FLCUT_AI_2627_visible() { return "verified"; }
+export async function loopTraceMarkerVisible() { return true; }
 
 // 1. Define a reserved word blocklist to protect our Next.js routes
 const RESERVED_WORDS = ['admin', 'api', 'dashboard', 'login', 'static', 'favicon', 'links'];
