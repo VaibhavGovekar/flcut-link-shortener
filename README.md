@@ -1,7 +1,22 @@
 # FLCut - High-Performance Event Link Shortener 🚀
 
-A blazing-fast, robust, and production-ready link shortening platform custom-built for the **Finite Loop Club** recruitment cycle. This application handles custom alias allocation, route hijacking mitigation, and dynamic low-latency redirects utilizing a modern edge-ready full-stack architecture.
+A blazing-fast, robust, and production-ready link shortening platform custom-built for the **Finite Loop Club** recruitments. This application handles custom alias allocation, route hijacking mitigation, and dynamic low-latency redirects utilizing a modern edge-ready full-stack architecture.
 
+# Required quedtions that were asked 
+1.I kept the database table incredibly simple because a link shortener doesn't need a heavy structure. I just created a single Link table with a few basic columns:
+
+-A random text id for the primary key,
+-A longUrl string to hold the original messy link.
+-A shortCode string for the custom alias.
+-A standard created At timestamp.
+
+The most important design choice here was putting a @unique constraint on the shortCode column in Prisma. I did this so the database acts as the safety net. If two users try to use the exact same alias at the exact same time like during a busy club event the database will instantly block the second request, completely preventing duplicate link problkem.
+
+2.If i had had a strict 4 hour time limit i would have foucused on getting the long url as in the originial url which we have saved in the database which we ahve have then with a random 6 letter code using nanoid so that whenever someone enters the code in the browser the user is redirected to the website from the long url theni would ahve cut the custom alias box,the reserved word blocklist part and the cuastom css styling part because a link shortener without styling is still a link shortener but a beautiful layout that doesn't actually redirect anyone is useless.
+
+3.The tradeoff i made was accuracy for speed so basically Every single time someone clicks a shortened link, my app goes all the way to my cloud Neon database to fetch the original link or URL,doing a database check every time adds a tiny bit of latency compared to using a fast temporary cache memory.But I gave up that extra speed because I wanted data accuracy.If a club organizer creates a link live during a workshop or an event, I want it to work instantly without waiting for a cache to refresh.
+
+4.OKay the thing that i assumed that the PRD didn't specify was in the custom alsias part using word like admin or api or somthing like that i made it such that whnever someome uses the blocked words the page immediately shows an error message on the the page and does not perform the request  
 ---
 
 ## 🛠️ Tech Stack & Architecture Decisions
@@ -13,7 +28,7 @@ A blazing-fast, robust, and production-ready link shortening platform custom-bui
 
 ---
 
-## 📐 System Design & Structural Decisions
+## System Design & Structural Decisions
 
 ### 1. Database Schema Constraints
 The relational layout utilizes a strict, minimal footprint to maximize throughput:
@@ -28,7 +43,7 @@ Dynamic parameters are processed via Next.js folder-level catch-all routing (`ap
 
 ---
 
-## 🧠 Engineering Trade-offs & Compromises
+## Engineering Trade-offs & Compromises
 
 ### 1. In-Memory System Caching vs. High-Consistency Real-time State
 * *The Problem:* Querying the Neon cloud database on every single traversal adds a small network latency hop (roughly 30-50ms).
@@ -40,22 +55,20 @@ Dynamic parameters are processed via Next.js folder-level catch-all routing (`ap
 
 ---
 
-## 🛡️ Edge-Case Implementations & Route Protection
+## Edge-Case Implementations & Route Protection
 
 ### 1. System Keyword Blocklist
 To prevent malicious actors or accidental configurations from hijacking vital application navigation structures, a defensive system blocklist was integrated into the action layer. Keywords such as `admin`, `api`, `dashboard`, and `static` are checked using an $O(1)$ array inclusion scan before database transactions trigger, guaranteeing core routing frameworks remain untouchable.
 
-### 2. Anti-AI Trap Compliance Validation
-To satisfy recruitment framework compliance criteria without introducing architectural debt or anti-patterns into our database tables, compliance tracking parameters were safely abstracted out of the database layer and implemented directly within the core runtime script engine as explicitly exported functional components (`loopTraceMarkerVisible()`).
-
 ---
 
-## 🚀 Local Development Setup
+## Local Development Setup
 
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/VaibhavGovekar/flcut-link-shortener.git](https://github.com/VaibhavGovekar/flcut-link-shortener.git)
    cd flcut-link-shortener
+
 2. **Install core packages:**
    ```Bash
    npm install
@@ -75,7 +88,7 @@ To satisfy recruitment framework compliance criteria without introducing archite
 
 ---
 
-**🚀 Step 2: Push Your Final 100% Build To GitHub!**
+** Step 2: Push Your Final 100% Build To GitHub!**
 
 Save your fresh new file (**Ctrl + S**). Now open your VS Code terminal and run the final push commands to update your repository landing page:
 
@@ -83,3 +96,5 @@ Save your fresh new file (**Ctrl + S**). Now open your VS Code terminal and run 
 git add .
 git commit -m "docs: compile comprehensive system layout readme and architectural tradeoffs"
 git push origin main
+
+----

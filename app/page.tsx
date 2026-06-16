@@ -1,4 +1,3 @@
-// app/page.tsx
 import { Metadata } from 'next';
 import { db } from '../db'; 
 import { createShortLink } from './actions';
@@ -9,12 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  // 2. Fetch links out of your Neon cloud database
   const savedLinks = await db.link.findMany({
     orderBy: { createdAt: 'desc' }
   });
 
-  // 3. Clean environment-based URL calculation (No 'window' object used!)
   const baseUrl = process.env.NODE_ENV === 'production'
     ? 'https://flcut-link-shortener.vercel.app' 
     : 'http://localhost:3000';

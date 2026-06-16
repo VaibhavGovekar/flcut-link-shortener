@@ -12,7 +12,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// This is the exact block that controls your browser tab name and description!
 export const metadata: Metadata = {
   title: "FLCut | FLC Link Shortener 🚀",
   description: "Custom, trackable short links for Finite Loop Club events.",
